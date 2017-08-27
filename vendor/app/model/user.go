@@ -9,14 +9,9 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-// *****************************************************************************
-// User
-// *****************************************************************************
-
-// User table contains the information for each user
 type User struct {
 	ObjectID  bson.ObjectId `bson:"_id"`
-	ID        uint32        `db:"id" bson:"id,omitempty"` // Don't use Id, use UserID() instead for consistency with MongoDB
+	ID        uint32        `db:"id" bson:"id,omitempty"`
 	FirstName string        `db:"first_name" bson:"first_name"`
 	LastName  string        `db:"last_name" bson:"last_name"`
 	Email     string        `db:"email" bson:"email"`
@@ -27,7 +22,6 @@ type User struct {
 	Deleted   uint8         `db:"deleted" bson:"deleted"`
 }
 
-// UserStatus table contains every possible user status (active/inactive)
 type UserStatus struct {
 	ID        uint8     `db:"id" bson:"id"`
 	Status    string    `db:"status" bson:"status"`
@@ -36,7 +30,6 @@ type UserStatus struct {
 	Deleted   uint8     `db:"deleted" bson:"deleted"`
 }
 
-// UserID returns the user id
 func (u *User) UserID() string {
 	r := ""
 
@@ -52,7 +45,6 @@ func (u *User) UserID() string {
 	return r
 }
 
-// UserByEmail gets user information from email
 func UserByEmail(email string) (User, error) {
 	var err error
 
@@ -82,7 +74,6 @@ func UserByEmail(email string) (User, error) {
 	return result, standardizeError(err)
 }
 
-// UserCreate creates user
 func UserCreate(firstName, lastName, email, password string) error {
 	var err error
 
